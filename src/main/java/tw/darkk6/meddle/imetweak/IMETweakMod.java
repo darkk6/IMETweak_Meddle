@@ -24,18 +24,19 @@ public class IMETweakMod {
 		*/
 		//根據這些 Class Name 透過 DynamicMapping 取得 srg
 		//DEFAULT_ENABLE_LIST.addAll(Util.getSrgClassNames(DEFAULT_ENABLE_LIST));
-		//底下是 for 1.9.2 Only 的 Mapping hardcode
+		//底下是 for 1.9.4 Only 的 Mapping hardcode
 		DEFAULT_ENABLE_LIST=new ArrayList<String>();
-		DEFAULT_ENABLE_LIST.add("beb");
-		DEFAULT_ENABLE_LIST.add("bgk");
-		DEFAULT_ENABLE_LIST.add("bft");
+		DEFAULT_ENABLE_LIST.add("bec");
+		DEFAULT_ENABLE_LIST.add("bgl");
+		DEFAULT_ENABLE_LIST.add("bfu");
 	}
 	
 	
 	public static CommonProxy proxy = (CommonProxy) MeddleAPI.createProxyInstance(CommonProxy.class.getName(), ClientProxy.class.getName());
 	
 	public void init(){
-		ClientEventAPI.checkApiVersionWithException("1.1");
+		ClientEventAPI.checkApiVersionWithException("1.3");
+		
 		proxy.init();
 	}
 }

@@ -63,7 +63,7 @@ public class EventHandler implements IGuiOpenListener,IKeyBindingState {
 	 * 		是否在 autoSwitch 名單 , yes = true
 	 * 		是否在 hasText , yes = true
 	 * 		是否在 noText , yes = false
-	 * 		透過 reflection 檢查是否有 TextField , yes/no = true/false
+	 * 		透過 reflection 檢查是否有 GuiTextField , yes/no = true/false
 	 * 		程式出錯 true
 	 */
 	private boolean hasTextField(GuiScreen gui){
@@ -77,7 +77,7 @@ public class EventHandler implements IGuiOpenListener,IKeyBindingState {
 			Field[] fields=cls.getDeclaredFields();
 			for(Field f:fields){
 				try{
-					if(f.getType() == Class.forName("bda")){
+					if(f.getType() == Class.forName("bdb")){
 						Config.instance.addGUICache(cls, true);
 						return true;
 					}

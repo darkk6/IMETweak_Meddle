@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.fybertech.meddle.MeddleUtil;
 import net.fybertech.meddleapi.ConfigFile;
 import net.minecraft.client.gui.GuiScreen;
 import tw.darkk6.meddle.api.util.APILog;
@@ -15,6 +16,8 @@ public class Config {
 	public static boolean isEnabled=true,noDisable=false;
 	public static List<String> guiAutoSwitch;
 	public static List<String> cacheHasText,cacheNoText;
+	private static String mcGameVer=MeddleUtil.findMinecraftVersion();
+	private static String cfgMCVer;
 	
 	public static Config instance;
 	
@@ -64,6 +67,12 @@ public class Config {
 				"general", "dontDisableIME", Boolean.valueOf(noDisable),
 				"沒有輸入區的 GUI 不停用輸入法(僅切為英數模式)"))).booleanValue();
 		
+		ConfigFile.ConfigKey<String> verKey=ConfigFile.key(
+				"internal", "minecraftVersion", Reference.MC_VER ,
+				"紀錄版本用，請勿修改");
+		
+		cfgMCVer=cfg.get(verKey);
+		
 		keyAuto=ConfigFile.key(
 				"internal", "autoSwitchGuiList", parseToString(IMETweakMod.DEFAULT_ENABLE_LIST),
 				"自動恢復 IME 狀態的 GUI 列表");
@@ -74,18 +83,30 @@ public class Config {
 		keyNo=ConfigFile.key(
 				"internal", "guiWithoutTextbox", "[]","沒有文字輸入的 GUI 列表");
 		
-		String tmp;
-		tmp=cfg.get(keyAuto);
-		guiAutoSwitch=parseToList(tmp);
+		if( !mcGameVer.equals(cfgMCVer) ){
+			//如果版本不符，就不載入 keyAuto,keyHas,keyNo 清單，並且要清空
+			verKey.setValue(mcGameVer);
+			cfg.get(keyAuto); cfg.get(keyHas); cfg.get(keyNo);
+			keyAuto.setValue("[]");keyHas.setValue("[]");keyNo.setValue("[]");
+			guiAutoSwitch=new ArrayList<String>();
+			cacheHasText=new ArrayList<String>();
+			cacheNoText=new ArrayList<String>();
+			APILog.info("版本變更，清除快取資料",Reference.LOG_TAG);
+		}else{
+			String tmp;
+			tmp=cfg.get(keyAuto);
+			guiAutoSwitch=parseToList(tmp);
 
-		tmp=cfg.get(keyHas);
-		cacheHasText=parseToList(tmp);
-		
-		tmp=cfg.get(keyNo);
-		cacheNoText=parseToList(tmp);
+			tmp=cfg.get(keyHas);
+			cacheHasText=parseToList(tmp);
+			
+			tmp=cfg.get(keyNo);
+			cacheNoText=parseToList(tmp);
+		}
 		
 		APILog.info("設定檔載入完成",Reference.LOG_TAG);
-		if(!file.exists()) cfg.save();
+		//if(!file.exists() || needSave) cfg.save();
+		if(cfg.hasChanged()) cfg.save();
 	}
 	
 	private String parseToString(List<String> list){
