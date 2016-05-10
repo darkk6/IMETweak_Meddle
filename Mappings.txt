@@ -1,0 +1,8 @@
+﻿IMETweakMod
+	static { }
+		beb => GuiChat
+		bgk => GuiEditSign
+		bft => GuiScreenBook
+EventHandler
+	hasTextField
+		Class.forName("bda") => GuiTextField
