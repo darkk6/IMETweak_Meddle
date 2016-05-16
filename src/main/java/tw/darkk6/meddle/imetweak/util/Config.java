@@ -53,6 +53,7 @@ public class Config {
 		}
 		//資料改變了，儲存
 		cfg.save();
+		lastModify = file.lastModified();
 	}
 	
 	private void load(){
@@ -68,7 +69,7 @@ public class Config {
 				"沒有輸入區的 GUI 不停用輸入法(僅切為英數模式)"))).booleanValue();
 		
 		ConfigFile.ConfigKey<String> verKey=ConfigFile.key(
-				"internal", "minecraftVersion", Reference.MC_VER ,
+				"internal", "minecraftVersion", "-----" ,
 				"紀錄版本用，請勿修改");
 		
 		cfgMCVer=cfg.get(verKey);
@@ -87,7 +88,8 @@ public class Config {
 			//如果版本不符，就不載入 keyAuto,keyHas,keyNo 清單，並且要清空
 			verKey.setValue(mcGameVer);
 			cfg.get(keyAuto); cfg.get(keyHas); cfg.get(keyNo);
-			keyAuto.setValue("[]");keyHas.setValue("[]");keyNo.setValue("[]");
+			keyAuto.setValue(parseToString(IMETweakMod.DEFAULT_ENABLE_LIST));
+			keyHas.setValue("[]");keyNo.setValue("[]");
 			guiAutoSwitch=new ArrayList<String>();
 			cacheHasText=new ArrayList<String>();
 			cacheNoText=new ArrayList<String>();

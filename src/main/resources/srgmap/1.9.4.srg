@@ -1,0 +1,5 @@
+# srgName name
+CL: bec net/minecraft/client/gui/GuiChat
+CL: bgl net/minecraft/client/gui/inventory/GuiEditSign
+CL: bfu net/minecraft/client/gui/GuiScreenBook
+CL: bdb net/minecraft/client/gui/GuiTextField

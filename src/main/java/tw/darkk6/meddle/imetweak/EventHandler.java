@@ -12,6 +12,7 @@ import tw.darkk6.meddle.api.listener.IGuiOpenListener;
 import tw.darkk6.meddle.api.util.APILog;
 import tw.darkk6.meddle.imetweak.util.Config;
 import tw.darkk6.meddle.imetweak.util.IME;
+import tw.darkk6.meddle.imetweak.util.NameMap;
 import tw.darkk6.meddle.imetweak.util.Reference;
 
 public class EventHandler implements IGuiOpenListener,IKeyBindingState {
@@ -77,7 +78,7 @@ public class EventHandler implements IGuiOpenListener,IKeyBindingState {
 			Field[] fields=cls.getDeclaredFields();
 			for(Field f:fields){
 				try{
-					if(f.getType() == Class.forName("bdb")){
+					if(f.getType() == Class.forName(NameMap.clzGuiTextField)){
 						Config.instance.addGUICache(cls, true);
 						return true;
 					}

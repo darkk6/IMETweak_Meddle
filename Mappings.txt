@@ -1,4 +1,5 @@
-﻿IMETweakMod
+﻿========= 都在 SrgMap.txt 內 =========
+IMETweakMod
 	static { }
 		bec => GuiChat
 		bgl => GuiEditSign
